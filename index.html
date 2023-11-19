@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ThingSpeak Data</title>
+</head>
+<body>
+    <h1>ThingSpeak Data</h1>
+    <div id="data-container"></div>
+
+    <script>
+        // Reemplaza 'TU_CLAVE_DE_LECTURA' con tu clave de lectura de ThingSpeak
+        const apiKey = 'TU_CLAVE_DE_LECTURA';
+        const channelID = 'TU_ID_DE_CANAL';
+        const fieldNumber = 1; // Número del campo que deseas mostrar
+
+        const apiUrl = `https://api.thingspeak.com/channels/${channelID}/fields/${fieldNumber}.json?results=1&api_key=${apiKey}`;
+
+        async function fetchData() {
+            try {
+                const response = await fetch(apiUrl);
+                const data = await response.json();
+                document.getElementById('data-container').innerHTML = `Último valor: ${data.feeds[0]['field${fieldNumber}']}`;
+            } catch (error) {
+                console.error('Error al obtener datos:', error);
+            }
+        }
+
+        fetchData();
+        setInterval(fetchData, 10000);
+    </script>
+</body>
+</html>
